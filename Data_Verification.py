@@ -101,7 +101,7 @@ def CallProc(proc_name,db_link):
 
 if __name__ == "__main__":
 	#1.获取数据库数据
-	a=OracleData('oracle://username:password@host:1521/server_name')
+	a=OracleData('oracle://sgmdm:bg9k74z1@172.16.1.99:1521/DBDM')
 	#tolist(),将DataFrame转换成list
 	a1=a[0].loc[1].tolist()[1:5]
 	a2=a[0].loc[0].tolist()[1:5]
@@ -109,23 +109,24 @@ if __name__ == "__main__":
 	a4=a[1].loc[0].tolist()[2:]
 	aa=(a1,a2,a3,a4)
 	#2.获取excel数据
-	b=ExcelData()
+	b=ExcelData('D:/github/smart')
 	#3.调用存储过程
-	c=CallProc('PROC_check_smart_test','username/password@host/server_name')
+	c=CallProc('PROC_check_smart_test','sgmdm/bg9k74z1@172.16.1.99/DBDM')
 
 	#数据库与excel数据对比
 	if aa==b:
 		print('SMART数据总量验证通过！')
 	else:
-		print('SMART数据总量验证不通过！')
+		print('SMART数据总量验证不通过！\n')
+		print('excel数据:\n',aa)
+		print('数据库数据:\n',b)
 	#存储过程数据校验
 	if '数据正常' in c:
 		print('SMART存储过程验证通过!')
 	else:
-		print('SMART存储过程验证不通过!')
+		print('SMART存储过程验证不通过!\n')
+		print('存储过程执行结果：',c)
 
-	#问题核查
-	#print(aa,b,c)
 
 
 
