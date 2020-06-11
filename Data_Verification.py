@@ -101,7 +101,7 @@ def CallProc(proc_name,db_link):
 
 if __name__ == "__main__":
 	#1.获取数据库数据
-	a=OracleData('oracle://sgmdm:bg9k74z1@172.16.1.99:1521/DBDM')
+	a=OracleData('oracle://username:password@host:1521/server_name')
 	#tolist(),将DataFrame转换成list
 	a1=a[0].loc[1].tolist()[1:5]
 	a2=a[0].loc[0].tolist()[1:5]
@@ -109,9 +109,9 @@ if __name__ == "__main__":
 	a4=a[1].loc[0].tolist()[2:]
 	aa=(a1,a2,a3,a4)
 	#2.获取excel数据
-	b=ExcelData('D:/github/smart')
+	b=ExcelData()
 	#3.调用存储过程
-	c=CallProc('PROC_check_smart_test','sgmdm/bg9k74z1@172.16.1.99/DBDM')
+	c=CallProc('PROC_check_smart_test','username/password@host/server_name')
 
 	#数据库与excel数据对比
 	if aa==b:
