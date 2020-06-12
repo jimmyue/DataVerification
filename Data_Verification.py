@@ -5,8 +5,8 @@ Created on 2020年6月11日
 @author: yuejing
 '''
 import pandas as pd
-from sqlalchemy import create_engine
-import cx_Oracle
+from common import DatabaseHandle
+from common import eml
 import os
 import time
 
@@ -70,62 +70,43 @@ def ExcelData(path='//192.168.2.16/share2/临时全公开/lwl/'+time.strftime("%
 	except IOError:
 		print("Error: 没有找到 %s 这个文件夹！" % path)
 
-def read_txt(file_name):
-	'''读取txt文件'''
-	f = open(file_name, "r")
-	str1 = f.read()
-	f.close()
-	return str1
-
-def OracleData(db_link):
-	'''Pandas数据库总量数据导出'''
-	con=create_engine(db_link)
-	#获取别克、雪佛兰、凯迪拉克数据
-	sql1=read_txt('sql1.txt')
-	data1=pd.read_sql(sql1,con)
-	#获取凯迪拉克APP数据
-	sql2=read_txt('sql2.txt')
-	data2=pd.read_sql(sql2,con)
-	return data1,data2
-
-def CallProc(proc_name,db_link):
-	'''调用存储过程'''
-	con = cx_Oracle.connect(db_link)
-	cur = con.cursor()
-	#定义存储过程返回变量
-	outVal = cur.var(str)
-	cur.callproc(proc_name,[outVal])
-	result=outVal.getvalue()
-	con.close()
-	return result
 
 if __name__ == "__main__":
 	#1.获取数据库数据
-	a=OracleData('oracle://username:password@host:1521/server_name')
+	data=DatabaseHandle.Database()
+	data1=data.Pandas_Sql('./sql/sql1.txt')
+	data2=data.Pandas_Sql('./sql/sql2.txt')
 	#tolist(),将DataFrame转换成list
-	a1=a[0].loc[1].tolist()[1:5]
-	a2=a[0].loc[0].tolist()[1:5]
-	a3=a[0].loc[2].tolist()[1:]
-	a4=a[1].loc[0].tolist()[2:]
-	aa=(a1,a2,a3,a4)
+	a1=data1.loc[1].tolist()[1:5]
+	a2=data1.loc[0].tolist()[1:5]
+	a3=data1.loc[2].tolist()[1:]
+	a4=data2.loc[0].tolist()[2:]
+	a=(a1,a2,a3,a4)
+
 	#2.获取excel数据
 	b=ExcelData()
-	#3.调用存储过程
-	c=CallProc('PROC_check_smart_test','username/password@host/server_name')
 
+	#3.调用存储过程
+	c=data.CallProc('PROC_check_smart_test')
+
+	#4.数据校对
 	#数据库与excel数据对比
-	if aa==b:
-		print('SMART数据总量验证通过！')
+	emltext='Dear all:\n\n测试结果如下：\n\n'
+	if a==b:
+		emltext=emltext+'SMART数据总量<b>验证通过</b>！\n'
 	else:
-		print('SMART数据总量验证不通过！\n')
-		print('excel数据:\n',aa)
-		print('数据库数据:\n',b)
+		emltext=emltext+'SMART数据总量<b>验证不通过</b>！\n'+'excel数据: '+str(b)+'\n数据库数据: '+str(a)+'\n\n'
 	#存储过程数据校验
 	if '数据正常' in c:
-		print('SMART存储过程验证通过!')
+		emltext=emltext+'SMART存储过程<b>验证通过</b>!\n'+'存储过程执行结果：'+c
 	else:
-		print('SMART存储过程验证不通过!\n')
-		print('存储过程执行结果：',c)
+		emltext=emltext+'SMART存储过程<b>验证不通过</b>!\n'+'存储过程执行结果：'+c
+
+	#5.邮件通知
+	#print(emltext)
+	eml.emlHandle().emilSend('yuejing@way-s.cn','Smart数据校验',emltext)
+
+
 
 
 

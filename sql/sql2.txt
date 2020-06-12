@@ -1,0 +1,6 @@
+select b.brand_name,t.ymd_id,sum(t.new_intention) new_intention,sum(t.new_order) new_order
+FROM FDM_SMART_SALES_CAD_SM_STATE t
+LEFT JOIN dm_smart_sub_model s on s.sub_model_id=t.sub_model_id
+LEFT JOIN dm_brand b on b.brand_id=s.brand_id
+where t.ymd_id=(select max(ymd_id) from FDM_SMART_SALES_CAD_SM_STATE)
+group by b.brand_name,t.ymd_id
