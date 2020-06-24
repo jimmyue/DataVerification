@@ -1,0 +1,21 @@
+#数据库配置
+database:
+  host: xxxx
+  username: xxxx
+  password: xxxx
+  port: 1521
+  server_name: xxxx
+
+#邮箱配置
+emil:
+  host: xxxx
+  username: xxxx
+  password: xxxx
+
+#http配置
+http:
+  url: http://127.0.0.1
+  port: 8080
+  timeout: 6
+
+

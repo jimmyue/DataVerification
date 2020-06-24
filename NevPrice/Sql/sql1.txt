@@ -1,0 +1,5 @@
+select YM,WEEK,OLD_VERSION_CODE,CITY_NAME
+,nvl(MSRP,-1) MSRP,nvl(STATE_SUBSIDY,-1) STATE_SUBSIDY
+,nvl(LOCAL_SUBSIDY,-1) LOCAL_SUBSIDY,nvl(TP,-1) TP,FLAG 
+from temp_version_price_ner@link_sgmdm99
+order by YM,WEEK,OLD_VERSION_CODE,CITY_NAME

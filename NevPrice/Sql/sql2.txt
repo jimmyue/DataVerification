@@ -1,0 +1,8 @@
+SELECT fpc.version_code,substr(dc.city_name,1,2) city_name
+,nvl(fpc.state_subsidy,0) state_subsidy,nvl(fpc.msrp,0) msrp
+,nvl(fpc.tp_subsidized,0) tp_subsidized ,nvl(fpc.tp,-1) tp
+,nvl(fpc.discount,-1) discount
+FROM fdm_price_city_ner@link_sgmdm99 fpc 
+LEFT JOIN dm_city@link_sgmdm99 dc  on dc.city_id=fpc.city_id 
+where fpc.ym||fpc.week={}
+and fpc.city_id in (208,56,69,100,194,222,260,331,332,265,301,167,85,91,95)
