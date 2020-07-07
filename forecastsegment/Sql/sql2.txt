@@ -1,0 +1,21 @@
+select subsegment_name
+,max(decode(MONTH_ID,1,ws_qty)) JANUARY 
+,max(decode(MONTH_ID,2,ws_qty)) FEBRUARY
+,max(decode(MONTH_ID,3,ws_qty)) MARCH 
+,max(decode(MONTH_ID,4,ws_qty)) APRIL
+,max(decode(MONTH_ID,5,ws_qty)) MAY
+,max(decode(MONTH_ID,6,ws_qty)) JUNE
+,max(decode(MONTH_ID,7,ws_qty)) JULY
+,max(decode(MONTH_ID,8,ws_qty)) AUGUST
+,max(decode(MONTH_ID,9,ws_qty)) SEPTEMBER
+,max(decode(MONTH_ID,10,ws_qty)) OCTOBER
+,max(decode(MONTH_ID,11,ws_qty)) NOVEMBER
+,max(decode(MONTH_ID,12,ws_qty)) DECEMBER
+from (
+select t.subsegment_name,t.subsegment_id,t.month_id,t.ws_qty
+from FDM_caam_FORECAST_GMTT t
+where t.year=(select max(year) from FDM_caam_FORECAST_GMTT)
+and t.subsegment_name in ('Medium High SUV','Medium Low SUV')
+)
+group by subsegment_name
+order by subsegment_name

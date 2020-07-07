@@ -1,0 +1,2 @@
+select max(MONTH_ID) MONTH from FDM_STATE_INSURANCE t
+where t.year=(select max(year_id) from DM_SGM_UPLOAD_PV)

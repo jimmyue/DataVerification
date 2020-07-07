@@ -1,0 +1,13 @@
+#数据库配置
+database:
+  host: XXXX
+  username: XXXX
+  password: XXXX
+  port: 1521
+  server_name: XXXX
+
+#邮箱配置
+emil:
+  host: XXXX
+  username: XXXX
+  password: XXXX

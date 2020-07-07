@@ -1,0 +1,4 @@
+select SEGMENT_NAME Segment,round(JANUARY) JANUARY,round(FEBRUARY) FEBRUARY,round(MARCH) MARCH
+,round(APRIL) APRIL,round(MAY) MAY,round(JUNE) JUNE,round(JULY) JULY,round(AUGUST) AUGUST
+,round(SEPTEMBER) SEPTEMBER,round(OCTOBER) OCTOBER,round(NOVEMBER) NOVEMBER,round(DECEMBER) DECEMBER
+from temp_caam_forecast t

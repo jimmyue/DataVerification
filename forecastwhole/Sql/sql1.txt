@@ -1,0 +1,4 @@
+select t.january,t.february,t.march,t.april,t.may,t.june,t.july,t.august,t.september,t.october,t.november,t.december
+from DM_SGM_UPLOAD_PV t 
+where t.year_id=(select max(year_id) from DM_SGM_UPLOAD_PV)
+order by t.type_id,t.source_id desc
