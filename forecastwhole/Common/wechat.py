@@ -1,3 +1,12 @@
+#!/usr/bin/python3
+# -*- coding:utf-8 -*-
+'''
+Created on 2020年7月7日
+@author: yuejing
+'''
+
+
+#http://sc.ftqq.com/3.version
 import requests
 
 def send_weixin(title=None,text=None):
