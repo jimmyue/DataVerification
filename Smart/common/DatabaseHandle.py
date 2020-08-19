@@ -28,13 +28,16 @@ class Database:
 		data=pd.read_sql(sql,con)
 		return data
 
-	def CallProc(self,proc_name):
+	def CallProc(self,proc_name,inval='0'):
 		con = cx_Oracle.connect(self.user+'/'+self.password+'@'+self.host+':'+str(self.port)+'/'+self.db)
 		cur = con.cursor()
 		#定义存储过程返回变量
-		outVal = cur.var(str)
-		cur.callproc(proc_name,[outVal])
-		result=outVal.getvalue()
+		outval = cur.var(str)
+		if inval=='0':
+			cur.callproc(proc_name,[outval])
+		else:
+			cur.callproc(proc_name,[inval,outval])
+		result=outval.getvalue()
 		con.close()
 		return result
 
